@@ -1,0 +1,42 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+    encoders:
+        Acme\BlogBundle\Entity\User:
+            id: acme_blog.page.password_encoder
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    providers:
+        our_database_users:
+            entity: { class: AcmeBlogBundle:User, property: username}
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+#        dev:
+#            pattern: ^/(_(profiler|wdt)|css|images|js)/
+#            security: false
+        api:
+            pattern: ^/api/
+            anonymous: true
+            stateless: true # symfony dont store user in session
+            guard:
+                authenticators:
+                    - 'jwt_token_authenticator'
+
+        main:
+            pattern: ^/
+            anonymous: true
+            form_login:
+                # The route name that the login form submits to
+                check_path: security_login_check
+                login_path: security_login_form
+            logout:
+                # The route name the user can go to in order to logout
+                path: security_logout
+
+            # activate different ways to authenticate
+
+            # http_basic: ~
+            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: ~
+            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html

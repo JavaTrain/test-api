@@ -1,0 +1,11 @@
+acme_blog_Page:
+    type: rest
+    prefix: /v1
+    resource: Acme\BlogBundle\Controller\PageController
+    name_prefix:  api_1_ # naming collision
+
+acme_blog_Token:
+    type: annotation
+    prefix: /v1
+    resource: Acme\BlogBundle\Controller\TokenController
+    name_prefix:  api_1_ # naming collision
