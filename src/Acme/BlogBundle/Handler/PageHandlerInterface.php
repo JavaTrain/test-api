@@ -22,10 +22,11 @@ interface PageHandlerInterface
      *
      * @param int $limit  the limit of the result
      * @param int $offset starting from the offset
+     * @param int $cat_id category id
      *
      * @return array
      */
-    public function all($limit = 5, $offset = 0);
+    public function all($limit = 5, $offset = 0, $cat_id);
 
     /**
      * Post Page, creates a new Page.

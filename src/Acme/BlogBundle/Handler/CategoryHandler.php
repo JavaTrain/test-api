@@ -8,7 +8,7 @@ use Acme\BlogBundle\Model\PageInterface;
 use Acme\BlogBundle\Form\PageType;
 use Acme\BlogBundle\Exception\InvalidFormException;
 
-class PageHandler implements PageHandlerInterface
+class CategoryHandler
 {
     private $om;
     private $entityClass;
@@ -38,14 +38,11 @@ class PageHandler implements PageHandlerInterface
     /**
      * Get a list of Pages.
      *
-     * @param int $limit  the limit of the result
-     * @param int $offset starting from the offset
-     *
      * @return array
      */
-    public function all($limit = 5, $offset = 0, $cat_id)
+    public function all()
     {
-        return $this->repository->findBy(array('category' => $cat_id), null, $limit, $offset);
+        return $this->repository->findAll();
     }
 
     /**

@@ -36,6 +36,12 @@ class Page implements PageInterface
      */
     private $body;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="pages")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     */
+    private $category;
+
 
     /**
      * Get id
@@ -93,6 +99,26 @@ class Page implements PageInterface
     public function getBody()
     {
         return $this->body;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param $category
+     *
+     * @return $this
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+
+        return $this;
     }
 }
 

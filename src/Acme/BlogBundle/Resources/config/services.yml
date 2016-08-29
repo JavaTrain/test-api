@@ -7,7 +7,12 @@ services:
       - "@form.factory"
   acme_blog.page.password_encoder:
     class: Acme\BlogBundle\Security\PasswordEncoder
-
+  acme_blog.category.handler:
+    class: Acme\BlogBundle\Handler\CategoryHandler
+    arguments:
+      - "@doctrine.orm.entity_manager"
+      - Acme\BlogBundle\Entity\Category
+      - "@form.factory"
 #    acme_blog.example:
 #        class: Acme\BlogBundle\Example
 #        arguments: ["@service_id", "plain_value", %parameter%]

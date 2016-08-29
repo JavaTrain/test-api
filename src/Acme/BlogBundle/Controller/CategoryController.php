@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class PageController extends FOSRestController
+class CategoryController extends FOSRestController
 {
     /**
      * List all pages.
@@ -30,11 +30,8 @@ class PageController extends FOSRestController
      *   }
      * )
      *
-     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing pages.")
-     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many pages to return.")
-     *
      * @Annotations\View(
-     *  templateVar="pages"
+     *  templateVar="categories"
      * )
      *
      * @param Request               $request      the request object
@@ -42,13 +39,9 @@ class PageController extends FOSRestController
      *
      * @return array
      */
-    public function getPagesAction($cat_id, Request $request, ParamFetcherInterface $paramFetcher)
+    public function getCategoriesAction(Request $request, ParamFetcherInterface $paramFetcher)
     {
-        $offset = $paramFetcher->get('offset');
-        $offset = (null == $offset) ? 0 : $offset;
-        $limit = $paramFetcher->get('limit');
-
-        return $this->container->get('acme_blog.page.handler')->all($limit, $offset, $cat_id);
+        return $this->container->get('acme_blog.category.handler')->all();
     }
 
     /**
@@ -57,14 +50,14 @@ class PageController extends FOSRestController
      * @ApiDoc(
      *   resource = true,
      *   description = "Gets a Page for a given id",
-     *   output = "Acme\BlogBundle\Entity\Page",
+     *   output = "Acme\BlogBundle\Entity\Category",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *     404 = "Returned when the page is not found"
      *   }
      * )
      *
-     * @Annotations\View(templateVar="page")
+     * @Annotations\View(templateVar="category")
      *
      * @param int     $id      the page id
      *
@@ -72,7 +65,7 @@ class PageController extends FOSRestController
      *
      * @throws NotFoundHttpException when page not exist
      */
-    public function getPageAction($id)
+    public function getCategoryAction($id)
     {
         $page = $this->getOr404($id);
 
@@ -95,7 +88,7 @@ class PageController extends FOSRestController
      *
      * @return FormTypeInterface
      */
-    public function newPageAction()
+    public function newCategoryAction()
     {
         return $this->createForm(PageType::class);
     }
@@ -106,7 +99,7 @@ class PageController extends FOSRestController
      * @ApiDoc(
      *   resource = true,
      *   description = "Creates a new page from the submitted data.",
-     *   input = "Acme\BlogBundle\Form\PageType",
+     *   input = "Acme\BlogBundle\Form\CategoryType",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *     400 = "Returned when the form has errors"
@@ -123,7 +116,7 @@ class PageController extends FOSRestController
      *
      * @return FormTypeInterface|View
      */
-    public function postPageAction(Request $request)
+    public function postCategoryAction(Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -175,7 +168,7 @@ class PageController extends FOSRestController
      *
      * @throws NotFoundHttpException when page not exist
      */
-    public function putPageAction(Request $request, $id)
+    public function putCategoryAction(Request $request, $id)
     {
         try {
             if (!($page = $this->container->get('acme_blog.page.handler')->get($id))) {
@@ -228,7 +221,7 @@ class PageController extends FOSRestController
      *
      * @throws NotFoundHttpException when page not exist
      */
-    public function patchPageAction(Request $request, $id)
+    public function patchCategoryAction(Request $request, $id)
     {
         try {
             $page = $this->container->get('acme_blog.page.handler')->patch(
