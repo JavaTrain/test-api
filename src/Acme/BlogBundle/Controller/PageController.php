@@ -66,15 +66,16 @@ class PageController extends FOSRestController
      *
      * @Annotations\View(templateVar="page")
      *
-     * @param int     $id      the page id
+     * @param int     $cat_id      the category id
+     * @param int     $page_id      the page id
      *
      * @return array
      *
      * @throws NotFoundHttpException when page not exist
      */
-    public function getPageAction($id)
+    public function getPageAction($cat_id, $page_id)
     {
-        $page = $this->getOr404($id);
+        $page = $this->getOr404($cat_id, $page_id);
 
         return $page;
     }
@@ -252,16 +253,17 @@ class PageController extends FOSRestController
     /**
      * Fetch a Page or throw an 404 Exception.
      *
-     * @param mixed $id
+     * @param mixed $catId
+     * @param mixed $pageId
      *
      * @return PageInterface
      *
      * @throws NotFoundHttpException
      */
-    protected function getOr404($id)
+    protected function getOr404($catId, $pageId)
     {
-        if (!($page = $this->container->get('acme_blog.page.handler')->get($id))) {
-            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
+        if (!($page = $this->container->get('acme_blog.page.handler')->get($catId, $pageId))) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$pageId));
         }
 
         return $page;

@@ -26,13 +26,14 @@ class PageHandler implements PageHandlerInterface
     /**
      * Get a Page.
      *
-     * @param mixed $id
+     * @param mixed $catId
+     * @param mixed $pageId
      *
      * @return PageInterface
      */
-    public function get($id)
+    public function get($catId,$pageId)
     {
-        return $this->repository->find($id);
+        return $this->repository->find($pageId);
     }
 
     /**

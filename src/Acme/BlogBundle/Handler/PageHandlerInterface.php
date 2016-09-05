@@ -11,11 +11,12 @@ interface PageHandlerInterface
      *
      * @api
      *
-     * @param mixed $id
+     * @param mixed $catId
+     * @param mixed $pageId
      *
      * @return PageInterface
      */
-    public function get($id);
+    public function get($catId, $pageId);
 
     /**
      * Get a list of Pages.
