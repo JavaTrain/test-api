@@ -47,8 +47,11 @@ class PageController extends FOSRestController
         $offset = $paramFetcher->get('offset');
         $offset = (null == $offset) ? 0 : $offset;
         $limit = $paramFetcher->get('limit');
+        $pages = $this->container->get('acme_blog.page.handler')->all($limit, $offset);
 
-        return $this->container->get('acme_blog.page.handler')->all($limit, $offset);
+//        var_dump($pages);die;
+
+        return ['pages' =>$this->container->get('acme_blog.page.handler')->all($limit, $offset)];
     }
 
     /**

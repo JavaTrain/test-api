@@ -22,12 +22,26 @@ class User implements UserInterface
      */
     private $id;
 
+//    /**
+//     * @var string
+//     *
+//     * @ORM\Column(name="username", type="string", length=255)
+//     */
+//    private $username;
+
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=255)
+     * @ORM\Column(name="email", type="string", length=255)
      */
-    private $username;
+    private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="salt", type="string", length=255)
+     */
+    private $salt;
 
     /**
      * @var string
@@ -44,6 +58,13 @@ class User implements UserInterface
     public function getSalt()
     {
         return null;
+    }
+
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+
+        return $this;
     }
 
     public function eraseCredentials()
@@ -65,20 +86,20 @@ class User implements UserInterface
      */
     public function getUsername()
     {
-        return $this->username;
+        return $this->email;
     }
 
-    /**
-     * @param $username
-     *
-     * @return $this
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-
-        return $this;
-    }
+//    /**
+//     * @param $username
+//     *
+//     * @return $this
+//     */
+//    public function setUsername($username)
+//    {
+//        $this->username = $username;
+//
+//        return $this;
+//    }
 
     /**
      * @return string
@@ -99,4 +120,25 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param $email
+     *
+     * @return $this
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
 }

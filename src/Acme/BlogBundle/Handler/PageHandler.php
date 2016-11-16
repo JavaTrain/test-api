@@ -32,6 +32,8 @@ class PageHandler implements PageHandlerInterface
      */
     public function get($id)
     {
+        var_dump($this->repository->find($id));die;
+
         return $this->repository->find($id);
     }
 
