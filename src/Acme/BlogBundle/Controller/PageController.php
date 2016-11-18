@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\Request\ParamFetcherInterface;
@@ -21,7 +22,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class PageController extends FOSRestController
 {
     /**
-     * List all pages.
+     * @Rest\View()
+     * @Rest\Get("/pages", name="get_all_pages")
      *
      * @ApiDoc(
      *   resource = true,
@@ -33,9 +35,6 @@ class PageController extends FOSRestController
      * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing pages.")
      * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many pages to return.")
      *
-     * @Annotations\View(
-     *  templateVar="pages"
-     * )
      *
      * @param Request               $request      the request object
      * @param ParamFetcherInterface $paramFetcher param fetcher service
@@ -47,11 +46,12 @@ class PageController extends FOSRestController
         $offset = $paramFetcher->get('offset');
         $offset = (null == $offset) ? 0 : $offset;
         $limit = $paramFetcher->get('limit');
-        $pages = $this->container->get('acme_blog.page.handler')->all($limit, $offset);
-
+        $pages = $this->container->get('acme_blog.page.handler')->all($limit, $offset)->getResult();
+        $pages['id'] = 0;
+        $users = $this->getDoctrine()->getRepository('AcmeBlogBundle:User')->findAll();
+        $users['id'] = 0;
 //        var_dump($pages);die;
-
-        return ['pages' =>$this->container->get('acme_blog.page.handler')->all($limit, $offset)];
+        return ['pages' => $pages, 'users' => $users];
     }
 
     /**

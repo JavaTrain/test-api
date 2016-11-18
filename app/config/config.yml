@@ -117,4 +117,16 @@ lexik_jwt_authentication:
     private_key_path: %kernel.root_dir%/../var/jwt/private.pem
     public_key_path:  %kernel.root_dir%/../var/jwt/public.pem
     pass_phrase:      %jwt_key_pass_phrase%
-    token_ttl:        3600
+    token_ttl:        %token_ttl%
+
+jms_serializer:
+    metadata:
+        auto_detection: true
+#        directories:
+#            FOSUserBundle:
+#                namespace_prefix: FOS\UserBundle
+#                path: "@MindkYachadApiBundle/Resources/config/serializer/fos"
+    handlers:
+        datetime:
+            default_format: "Y-m-d"
+            default_timezone: "UTC"

@@ -8,6 +8,12 @@ services:
   acme_blog.page.password_encoder:
     class: Acme\BlogBundle\Security\PasswordEncoder
 
+  acme_api.event.jwt_created_listener:
+    class: Acme\BlogBundle\EventListener\JWTCreatedListener
+    arguments: [ '@request_stack' ]
+    tags:
+        - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+
 #    acme_blog.example:
 #        class: Acme\BlogBundle\Example
 #        arguments: ["@service_id", "plain_value", %parameter%]

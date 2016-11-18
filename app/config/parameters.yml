@@ -11,3 +11,4 @@ parameters:
     mailer_password: null
     secret: ThisTokenIsNotSoSecretChangeIt
     jwt_key_pass_phrase: happyapi
+    token_ttl: 3600

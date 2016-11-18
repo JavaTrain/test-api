@@ -36,6 +36,12 @@ class Page implements PageInterface
      */
     private $body;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $postedBy;
+
 
     /**
      * Get id
@@ -94,5 +100,27 @@ class Page implements PageInterface
     {
         return $this->body;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPostedBy()
+    {
+        return $this->postedBy;
+    }
+
+    /**
+     * @param $author
+     *
+     * @return $this
+     */
+    public function setPostedBy($author)
+    {
+        $this->postedBy = $author;
+
+        return $this;
+    }
+
+
 }
 

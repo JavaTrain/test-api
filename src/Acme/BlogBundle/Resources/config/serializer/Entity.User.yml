@@ -1,0 +1,9 @@
+Acme\BlogBundle\Entity\User:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+#            groups: [students, admins]
+        email:
+            expose: true
+#            groups: [students, admins]

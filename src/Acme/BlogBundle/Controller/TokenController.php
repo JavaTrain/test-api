@@ -3,16 +3,37 @@
 namespace Acme\BlogBundle\Controller;
 
 use Acme\BlogBundle\Entity\User;
+use Acme\BlogBundle\Security\TokenUserProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use JMS\DiExtraBundle\Annotation as DI;
 
+///**
+// * Class BaseRepository.
+// *
+// * @DI\Service("token_controller", abstract=true)
+// */
 class TokenController extends Controller
 {
+
+//    /**
+//     * BaseRepository constructor.
+//     *
+//     * @DI\InjectParams({
+//     *    "securityTokenStorage" = @DI\Inject("security.token_storage"),
+//     * })
+//     */
+//    public function __construct(TokenStorageInterface $securityTokenStorage)
+//    {
+//        $this->securityTokenStorage = $securityTokenStorage;
+//    }
+
     /**
      * @Route("/tokens")
      * @Method("POST")
@@ -36,11 +57,11 @@ class TokenController extends Controller
 
         $token = $this->get('lexik_jwt_authentication.encoder')
             ->encode(
-                [
-                    'email'  => $user->getEmail(),
-                    'role'   => $user->getRoles(),
-                    'userId' => $user->getId(),
-                ]
+//                [
+//                    'email'  => $user->getEmail(),
+//                    'role'   => $user->getRoles(),
+//                    'userid' => $user->getId(),
+//                ]
             );
         
         return new JsonResponse(['token' => $token]);
@@ -106,6 +127,7 @@ class TokenController extends Controller
                               'email'  => $user->getEmail(),
                               'role'   => $user->getRoles(),
                               'userId' => $user->getId(),
+                              'ttl'    => $this->getParameter('token_ttl'),
                           ]
                       );
 
@@ -120,5 +142,23 @@ class TokenController extends Controller
         //        'https://www.googleapis.com/oauth2/v2/userinfo?access_token='+req.query.access_token
         // http://localhost:8088/api/v1/login_with_google_token?access_token=ya29.CjGYA3wEnnE6y4p41PmgFp7OW9yddxOTlrkDMHQAQ48RSmbGPRXNcO9HocDbp6cS_G2i
 
+    }
+
+    /**
+     *
+     * @Route("/users/{email}")
+     * @Method("GET")
+     */
+    public function getRegisteredUser($email, Request $request)
+    {
+        $user = $this->container->get('jwt_token_authenticator')->getUser(
+            $request->headers->get('x-access-token'),
+            new TokenUserProvider($this->get('logger'))
+        );
+        if ($user) {
+            return new JsonResponse(
+                ['user' => $user]
+            );
+        }
     }
 }

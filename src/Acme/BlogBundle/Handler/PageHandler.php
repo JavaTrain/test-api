@@ -32,8 +32,7 @@ class PageHandler implements PageHandlerInterface
      */
     public function get($id)
     {
-        var_dump($this->repository->find($id));die;
-
+//        var_dump($this->repository->find($id));die;
         return $this->repository->find($id);
     }
 
@@ -47,7 +46,8 @@ class PageHandler implements PageHandlerInterface
      */
     public function all($limit = 5, $offset = 0)
     {
-        return $this->repository->findBy(array(), null, $limit, $offset);
+        return $this->repository->buildQuery(array('withUserId' => true));
+//        return $this->repository->findBy(array(), null, $limit, $offset);
     }
 
     /**

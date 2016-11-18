@@ -53,12 +53,20 @@ class JwtTokenAuthenticator extends AbstractGuardAuthenticator
         if ($data === false) {
             throw new CustomUserMessageAuthenticationException('Invalid Token');
         }
-        $username = $data['username'];
-        return $this->em
+        $email = $data['email'];
+        $user = $this->em
             ->getRepository('AcmeBlogBundle:User')
-            ->findOneBy(['username' => $username]);
+            ->findOneBy(['email' => $email]);
+
+        return $user;
     }
 
+    /**
+     * @param mixed         $credentials
+     * @param UserInterface $user
+     *
+     * @return bool
+     */
     public function checkCredentials($credentials, UserInterface $user)
     {
         return true;
@@ -67,11 +75,17 @@ class JwtTokenAuthenticator extends AbstractGuardAuthenticator
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         // TODO: Implement onAuthenticationFailure() method.
+        return new JsonResponse(
+            [
+                'message' => $exception->getMessageKey()
+            ], 401
+        );
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         // TODO: Implement onAuthenticationSuccess() method.
+        return;
     }
 
     public function supportsRememberMe()

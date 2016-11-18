@@ -3,6 +3,6 @@ acme_blog:
     prefix: /api
     resource: "@AcmeBlogBundle/Resources/config/routes.yml"
 
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
+#app:
+#    resource: "@AppBundle/Controller/"
+#    type:     annotation
